@@ -1,0 +1,51 @@
+:root, [data-theme='modern'] {
+  --bg: #faf8ff;
+  --surface: #ffffff;
+  --surface-2: #f3efff;
+  --text: #2a2347;
+  --muted: #6b6490;
+  --primary: #8b5cf6;
+  --primary-soft: #c4b5fd;
+  --accent: #f0abfc;
+  --accent-2: #93c5fd;
+  --success: #86efac;
+  --radius: 1rem;
+  --border-w: 1px;
+  --shadow: 0 8px 24px rgb(139 92 246 / 0.12);
+  --font-ui: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+[data-theme='modern'][data-mode='dark'] {
+  --bg: #15122a;
+  --surface: #1e1a38;
+  --surface-2: #272248;
+  --text: #ece9ff;
+  --muted: #a9a3d1;
+  --shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+}
+
+[data-theme='retro'] {
+  --bg: #171329;
+  --surface: #101426;
+  --surface-2: #211a3d;
+  --text: #ece9ff;
+  --muted: #a9a3d1;
+  --primary: #a78bfa;
+  --primary-soft: #ddd6fe;
+  --accent: #ff6ac1;
+  --accent-2: #4deeea;
+  --success: #86efac;
+  --radius: 0px;
+  --border-w: 4px;
+  --shadow: 4px 4px 0 #8b5cf6;
+  --font-ui: 'VT323', 'Share Tech Mono', monospace;
+  --font-display: 'Press Start 2P', monospace;
+}
+
+body { background: var(--bg); color: var(--text); font-family: var(--font-ui); }
+
+[data-theme='retro'] .scanlines::after {
+  content: ''; pointer-events: none; position: absolute; inset: 0;
+  background: repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / 0.08) 2px 3px);
+}
