@@ -93,6 +93,28 @@ Use one normal window and one incognito window. Each has its own anonymous ident
 7. Window C (a third identity) joins the same room. It sees the room but cannot read data from other rooms.
 8. Optional: with the function running, test the AI Corner button.
 
+### 2.7 Stop the dev environment
+
+Run every `npx supabase ...` command from the project folder (where `supabase/config.toml` lives).
+
+| What | How |
+|---|---|
+| Frontend (`npm run dev`) | Press `Ctrl+C` in its terminal |
+| AI function (`functions serve`) | Press `Ctrl+C` in its terminal |
+| Local Supabase (Docker) | `npx supabase stop` |
+| Docker Desktop | Quit it from the tray icon (optional, frees RAM) |
+
+`npx supabase stop` keeps your data (it lives in Docker volumes). To wipe it:
+
+```bash
+npx supabase stop --no-backup   # stop and delete all local data
+npx supabase db reset           # keep running, rebuild DB from migrations
+```
+
+Nothing auto-starts after a reboot. To resume: start Docker Desktop, then `npx supabase start`, then `npm run dev`.
+
+If `supabase start` fails with "port is already allocated", an old project is still running. Run `npx supabase stop` from its folder, or list leftovers with `docker ps --filter "name=supabase_"` and remove them with `docker rm -f <name>`.
+
 ---
 
 ## 3. Deploy
@@ -196,7 +218,9 @@ Games with hidden information (Werewolf) must keep state in an Edge Function and
 | Symptom | Likely cause |
 |---|---|
 | Sign-in fails with captcha error | Turnstile keys do not match the environment (use the test keys locally) |
-| Chat does not update live | `messages` is not in the `supabase_realtime` publication (migration 0002) |
+| Chat does not update live | Chat reloads via the room channel (`chat:new`); check the room shows `(online)` |
+| "Anonymous sign-ins are disabled" | `enable_anonymous_sign_ins = true` missing in `config.toml`; restart with `npx supabase stop` then `start` |
+| "port is already allocated" | Another Supabase project is running; stop it (see 2.7) |
 | `ROOM_NOT_FOUND` on join | Code typed wrong, or the room was created in a different Supabase instance |
 | Channel never reaches `online` | Realtime policies missing, or the user is not a room member |
 | AI returns 429 | Daily per-user quota reached (`consume_ai_quota`) |
